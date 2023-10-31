@@ -1,19 +1,19 @@
 import java.util.*;
 public class FindEventualSafeState {
-    public boolean hasCycle(int src,int graph[][],boolean visited[]){
-//        System.out.println(src);
+    public boolean hasCycle(int src,int graph[][],boolean visited[],boolean stack[]){
         visited[src]= true;
+        stack[src] = true;
         for(int nbr:graph[src]){
+            if(stack[nbr]==true)
+                return true;
 
             if(visited[nbr]==false){
-                boolean ans = hasCycle(nbr,graph,visited);
-                visited[nbr] = false;
+                boolean ans = hasCycle(nbr,graph,visited,stack);
                 if(ans==true)
                     return true;
-            }else{
-                return true;
             }
         }
+        stack[src] = false;
         return false;
     }
     public List<Integer> eventualSafeNodes(int[][] graph) {
@@ -24,25 +24,11 @@ public class FindEventualSafeState {
 
         for(int i=0;i<n;i++){
             boolean visited[] = new boolean[n];
+            boolean stack[] = new boolean[n];
             boolean aa = false;
-            if(ck[i]==0) {
-                aa = hasCycle(i, graph, visited);
-            } else if (ck[i]==1) {
-                aa = false;
-            }else {
-                aa = true;
-            }
-//            System.out.println(aa);
+            aa = hasCycle(i, graph, visited,stack);
             if(!aa){
                 ans.add(i);
-                for(int kk=0;kk<n;kk++){
-                    if(visited[kk]==true)
-                        ck[kk] = 1;
-                }
-            }else{
-                for(int kk=0;kk<n;kk++)
-                    if(visited[kk]==true)
-                        ck[kk]=-1;
             }
         }
         return  ans;
