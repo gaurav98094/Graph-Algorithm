@@ -19,7 +19,7 @@ public class PrimsAlgorithm {
         ArrayList<Pair> l[];
         Graph(int n){
             v = n;
-            l = new ArrayList[];
+            l = new ArrayList[n];
             for(int i=0;i<v;i++)
                 l[i] = new ArrayList<>();
         }
